@@ -51,10 +51,16 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
                 btnNext.setOnClickListener {
                     if(nextCaseId != 0) {
                         dataAdapter.submitList(listOf())
+                        dataAdapter.checkedPosition = -1
+                        dataAdapter.previousCheckedPosition = -1
                         viewModel.loadNextCase(nextCaseId)
                     } else {
                         findNavController().navigateUp()
                     }
+                }
+
+                btnBack.setOnClickListener {
+                    findNavController().navigateUp()
                 }
             }
         }
@@ -95,8 +101,17 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
             print(data.image)
             Picasso.get().load(data.image)
                 .into(image)
+
+            if(data.answers.isNotEmpty()) {
+                image.visibility = View.VISIBLE
+                loadAnswers(data.answers)
+            } else {
+                image.visibility = View.GONE
+                binding.btnNext.visibility = View.GONE
+                binding.btnBack.visibility = View.VISIBLE
+            }
         }
-        loadAnswers(data.answers)
+
     }
 
     private fun loadAnswers(list: List<Answer>) {

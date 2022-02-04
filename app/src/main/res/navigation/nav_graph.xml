@@ -12,16 +12,16 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/scenarioList"
-        tools:layout="@layout/fragment_scenario_list"
         android:name="com.ezio.caseexplorer.ui.feature_scenarios.ScenarioList"
-        android:label="ScenarioList" >
+        android:label="ScenarioList"
+        tools:layout="@layout/fragment_scenario_list">
         <action
             android:id="@+id/action_scenarioList_to_caseFragment"
             app:destination="@id/caseFragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_case"
         android:id="@+id/caseFragment"
         android:name="com.ezio.caseexplorer.ui.feature_cases.CaseFragment"
-        android:label="CaseFragment" />
+        android:label="CaseFragment"
+        tools:layout="@layout/fragment_case" />
 </navigation>

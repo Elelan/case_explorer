@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/scenarioList"
         android:name="com.ezio.caseexplorer.ui.feature_scenarios.ScenarioList"
-        android:label="ScenarioList"
+        android:label="Cases"
         tools:layout="@layout/fragment_scenario_list">
 
         <action
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/caseFragment"
         android:name="com.ezio.caseexplorer.ui.feature_cases.CaseFragment"
-        android:label="CaseFragment"
+        android:label="Fixes"
         tools:layout="@layout/fragment_case">
         <argument
             android:name="caseId"

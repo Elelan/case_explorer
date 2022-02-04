@@ -104,6 +104,8 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
 
             if(data.answers.isNotEmpty()) {
                 image.visibility = View.VISIBLE
+                binding.btnBack.visibility = View.GONE
+
                 loadAnswers(data.answers)
             } else {
                 image.visibility = View.GONE

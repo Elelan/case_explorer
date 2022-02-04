@@ -21,7 +21,7 @@ class AnswerAdapter(
 
         init {
             binding.apply {
-                btnView.setOnClickListener {
+                checkbox.setOnClickListener {
                     val position = adapterPosition
                     if(position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)

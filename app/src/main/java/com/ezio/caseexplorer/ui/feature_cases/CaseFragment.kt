@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezio.caseexplorer.R
 import com.ezio.caseexplorer.core.domain.models.Answer
+import com.ezio.caseexplorer.core.domain.models.CaseItem
 import com.ezio.caseexplorer.core.utils.exhaustive
 import com.ezio.caseexplorer.databinding.FragmentCaseBinding
 import com.squareup.picasso.Picasso
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickListener {
 
+    var nextCaseId = 0
     lateinit var binding: FragmentCaseBinding
     val viewModel: CaseViewModel by viewModels()
     lateinit var dataAdapter : AnswerAdapter
@@ -28,7 +30,7 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentCaseBinding.bind(view)
-
+        setHasOptionsMenu(true)
         dataAdapter = AnswerAdapter(this)
 
         binding.apply {
@@ -44,9 +46,19 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
                         )
                     )
                 }
+
+                btnNext.setOnClickListener {
+                    if(nextCaseId != 0) {
+                        viewModel.loadNextCase(nextCaseId)
+                    }
+                }
             }
         }
 
+        dataAdapter.submitList(listOf())
+        loadAnswers(listOf(
+            Answer(0, "")
+        ))
         initObservers()
     }
 
@@ -60,11 +72,7 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
                     is CaseViewModel.UiEvents.LoadCaseItem -> {
                         // display Case Details
                         val data = event.caseItem
-                        binding.apply {
-                            text.text = data.text
-                            Picasso.with(requireContext()).load(data.image).into(image)
-                        }
-                        loadAnswers(data.answers)
+                        displayData(data)
 
                     }
                     is CaseViewModel.UiEvents.Loading -> {
@@ -75,6 +83,17 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
         }
     }
 
+    private fun displayData(data: CaseItem) {
+        binding.apply {
+            noDataView.visibility = View.GONE
+            dataView.visibility = View.VISIBLE
+            text.text = data.text
+            Picasso.get().load(data.image)
+                .into(image)
+        }
+        loadAnswers(data.answers)
+    }
+
     private fun loadAnswers(list: List<Answer>) {
         dataAdapter.submitList(list)
     }
@@ -83,6 +102,8 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
         binding.apply {
             if (isLoading) {
                 progressBar.visibility = View.VISIBLE
+                noDataView.visibility = View.VISIBLE
+                dataView.visibility = View.GONE
             } else {
                 progressBar.visibility = View.GONE
             }
@@ -90,6 +111,6 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
     }
 
     override fun onAnswerClicked(item: Answer) {
-        //
+        this.nextCaseId = item.caseid
     }
 }

@@ -50,6 +50,10 @@ class CaseViewModel @Inject constructor(
         }
     }
 
+    fun loadNextCase(caseId: Int) {
+        loadCaseDetails(caseId)
+    }
+
     sealed class UiEvents {
         data class Loading(val isLoading: Boolean): UiEvents()
         data class FetchNextCase(val caseId: Int): UiEvents()

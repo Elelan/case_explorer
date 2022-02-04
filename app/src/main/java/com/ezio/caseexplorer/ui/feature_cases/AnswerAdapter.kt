@@ -16,6 +16,9 @@ class AnswerAdapter(
 ) :
     ListAdapter<Answer, AnswerAdapter.AnswerViewHolder>(DiffCallback()) {
 
+    var previousCheckedPosition = -1
+    var checkedPosition = -1
+
     inner class AnswerViewHolder(private val binding: ListItemAnswerBinding) :
         BaseViewHolder<Answer>(binding.root) {
 
@@ -32,6 +35,22 @@ class AnswerAdapter(
         }
 
         override fun bind(item: Answer) = with(binding) {
+            var isChecked = adapterPosition == checkedPosition
+
+            if(isChecked) {
+                previousCheckedPosition = adapterPosition
+                checkbox.isChecked = true
+            } else {
+                checkbox.isChecked = false
+            }
+
+
+            checkbox.setOnClickListener {
+                checkedPosition = if(isChecked) -1 else adapterPosition
+                notifyItemChanged(previousCheckedPosition)
+                notifyItemChanged(checkedPosition)
+            }
+
             answer = item
         }
     }
@@ -53,6 +72,7 @@ class AnswerAdapter(
 
     override fun onBindViewHolder(holder: AnswerViewHolder, position: Int) {
         val currentItem = getItem(position)
+
         holder.bind(currentItem)
     }
 

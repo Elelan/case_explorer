@@ -24,13 +24,13 @@ class AnswerAdapter(
 
         init {
             binding.apply {
-                checkbox.setOnClickListener {
-                    val position = adapterPosition
-                    if(position != RecyclerView.NO_POSITION) {
-                        val item = getItem(position)
-                        delegate.onAnswerClicked(item)
-                    }
-                }
+//                checkbox.setOnClickListener {
+//                    val position = adapterPosition
+//                    if(position != RecyclerView.NO_POSITION) {
+//                        val item = getItem(position)
+//                        delegate.onAnswerClicked(item)
+//                    }
+//                }
             }
         }
 
@@ -49,6 +49,7 @@ class AnswerAdapter(
                 checkedPosition = if(isChecked) -1 else adapterPosition
                 notifyItemChanged(previousCheckedPosition)
                 notifyItemChanged(checkedPosition)
+                delegate.onAnswerClicked(item)
             }
 
             answer = item

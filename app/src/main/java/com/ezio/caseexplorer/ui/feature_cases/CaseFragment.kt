@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezio.caseexplorer.R
@@ -50,6 +51,8 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
                 btnNext.setOnClickListener {
                     if(nextCaseId != 0) {
                         viewModel.loadNextCase(nextCaseId)
+                    } else {
+                        findNavController().navigateUp()
                     }
                 }
             }
@@ -88,6 +91,7 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
             noDataView.visibility = View.GONE
             dataView.visibility = View.VISIBLE
             text.text = data.text
+            print(data.image)
             Picasso.get().load(data.image)
                 .into(image)
         }

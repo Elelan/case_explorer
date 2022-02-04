@@ -18,10 +18,16 @@
         <action
             android:id="@+id/action_scenarioList_to_caseFragment"
             app:destination="@id/caseFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/caseFragment"
         android:name="com.ezio.caseexplorer.ui.feature_cases.CaseFragment"
         android:label="CaseFragment"
-        tools:layout="@layout/fragment_case" />
+        tools:layout="@layout/fragment_case">
+
+        <argument
+            android:name="caseId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

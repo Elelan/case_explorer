@@ -7,14 +7,13 @@ import com.ezio.caseexplorer.core.domain.CaseRepository
 import com.ezio.caseexplorer.core.domain.use_case.AppUseCases
 import com.ezio.caseexplorer.core.domain.use_case.FetchCaseForIdUseCase
 import com.ezio.caseexplorer.core.domain.use_case.FetchScenarioListUseCase
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -28,19 +27,14 @@ object AppModule {
             .build()
     }
 
-    @Provides
-    @Singleton
-    internal fun provideMoshi(): Moshi = Moshi.Builder().build();
-
     @Singleton
     @Provides
     fun provideCaseApi(
         client: OkHttpClient,
-        moshi: Moshi
     ): CaseApi {
         return Retrofit.Builder()
             .baseUrl(AppConfig.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
             .create(CaseApi::class.java)

@@ -7,9 +7,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CaseApi {
-    @GET("/scenarios")
+    @GET("scenarios")
     suspend fun getScenarios(): Scenario
 
-    @GET("/scenarios/cases/{caseId}")
+    @GET("scenarios/cases/{caseId}")
     suspend fun getCaseById(@Path("caseId")id: Int): Case
 }

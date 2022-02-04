@@ -1,13 +1,10 @@
 package com.ezio.caseexplorer.core.domain.models
 
+import com.google.gson.annotations.SerializedName
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
 data class Answer(
-    @Json(name = "caseid")
+    @SerializedName("caseid")
     val caseid: Int,
-    @Json(name = "text")
+    @SerializedName("text")
     val text: String
 )

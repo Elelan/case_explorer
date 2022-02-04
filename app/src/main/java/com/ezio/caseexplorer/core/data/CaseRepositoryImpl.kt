@@ -10,10 +10,15 @@ class CaseRepositoryImpl(
     private val api: CaseApi
 ) : CaseRepository {
     override suspend fun getScenarios(): Resource<List<ScenarioItem>> {
-        TODO("Not yet implemented")
+        return try {
+            val result = api.getScenarios()
+            Resource.Success(result)
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
     }
 
     override suspend fun getCase(id: Int): Resource<CaseItem> {
-        TODO("Not yet implemented")
+        return Resource.Loading
     }
 }

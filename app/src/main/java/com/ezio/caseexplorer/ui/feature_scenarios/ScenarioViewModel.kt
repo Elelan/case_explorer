@@ -2,6 +2,7 @@ package com.ezio.caseexplorer.ui.feature_scenarios
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ezio.caseexplorer.core.domain.models.ScenarioItem
 import com.ezio.caseexplorer.core.domain.use_case.AppUseCases
 import com.ezio.caseexplorer.core.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,6 +39,12 @@ class ScenarioViewModel @Inject constructor(
                     _state.send(UiStateEvents.LoadScenarioList(data))
                 }
             }
+        }
+    }
+
+    fun navigateToCaseDetail(item: ScenarioItem) {
+        viewModelScope.launch {
+            _state.send(UiStateEvents.NavigateToCase(item.caseId))
         }
     }
 }

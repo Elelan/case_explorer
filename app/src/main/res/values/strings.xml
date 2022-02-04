@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Case Explorer</string>
+
+    <string name="view_btn_text"><u>more</u></string>
 </resources>

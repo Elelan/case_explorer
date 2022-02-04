@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.ezio.caseexplorer.core.domain.models.ScenarioItem
 import com.ezio.caseexplorer.core.ui.BaseViewHolder
 import com.ezio.caseexplorer.databinding.ListItemScenarioBinding
@@ -15,6 +16,19 @@ class ScenarioAdapter(
 
     inner class ScenarioViewHolder(private val binding: ListItemScenarioBinding) :
         BaseViewHolder<ScenarioItem>(binding.root) {
+
+        init {
+            binding.apply {
+                btnView.setOnClickListener {
+                    val position = adapterPosition
+                    if(position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        delegate.onScenarioClicked(item)
+                    }
+                }
+            }
+        }
+
         override fun bind(item: ScenarioItem) = with(binding) {
             scenarioItem = item
         }

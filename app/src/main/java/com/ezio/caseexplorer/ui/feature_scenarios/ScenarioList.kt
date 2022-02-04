@@ -5,9 +5,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezio.caseexplorer.R
 import com.ezio.caseexplorer.core.domain.models.ScenarioItem
+import com.ezio.caseexplorer.core.utils.exhaustive
 import com.ezio.caseexplorer.databinding.FragmentScenarioListBinding
 import dagger.hilt.android.AndroidEntryPoint;
 import kotlinx.coroutines.flow.collect
@@ -56,7 +58,10 @@ class ScenarioList: Fragment(R.layout.fragment_scenario_list), ScenarioAdapter.I
                     is UiStateEvents.Loading -> {
                         showHideLoading(event.isLoading)
                     }
-                }
+                    is UiStateEvents.NavigateToCase -> {
+                        // Navigate to Case Details Screen
+                    }
+                }.exhaustive
             }
         }
     }
@@ -76,6 +81,6 @@ class ScenarioList: Fragment(R.layout.fragment_scenario_list), ScenarioAdapter.I
     }
 
     override fun onScenarioClicked(item: ScenarioItem) {
-        TODO("Not yet implemented")
+        viewModel.navigateToCaseDetail(item)
     }
 }

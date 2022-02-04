@@ -7,4 +7,5 @@ sealed class UiStateEvents {
     data class Loading(val isLoading: Boolean): UiStateEvents()
     data class UiMessage(val messageType: MessageType, val message: String)
     data class LoadScenarioList(val data: List<ScenarioItem>): UiStateEvents()
+    data class NavigateToCase(val caseId: Int) : UiStateEvents()
 }

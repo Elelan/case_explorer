@@ -3,11 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/scenarioList">
 
     <activity
         android:id="@+id/mainActivity"
         android:name="com.ezio.caseexplorer.core.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/scenarioList"
+        tools:layout="@layout/fragment_scenario_list"
+        android:name="com.ezio.caseexplorer.ui.feature_scenarios.ScenarioList"
+        android:label="ScenarioList" >
+        <action
+            android:id="@+id/action_scenarioList_to_caseFragment"
+            app:destination="@id/caseFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_case"
+        android:id="@+id/caseFragment"
+        android:name="com.ezio.caseexplorer.ui.feature_cases.CaseFragment"
+        android:label="CaseFragment" />
 </navigation>

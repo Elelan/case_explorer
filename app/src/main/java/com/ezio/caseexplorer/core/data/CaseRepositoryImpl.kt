@@ -19,6 +19,11 @@ class CaseRepositoryImpl(
     }
 
     override suspend fun getCase(id: Int): Resource<CaseItem> {
-        return Resource.Loading
+        return try {
+            val result = api.getCaseById(id)
+            Resource.Success(result[0])
+        } catch (e: Exception) {
+            return Resource.Error(e);
+        }
     }
 }

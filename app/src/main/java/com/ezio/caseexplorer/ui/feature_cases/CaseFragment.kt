@@ -50,6 +50,7 @@ class CaseFragment: Fragment(R.layout.fragment_case), AnswerAdapter.ItemClickLis
 
                 btnNext.setOnClickListener {
                     if(nextCaseId != 0) {
+                        dataAdapter.submitList(listOf())
                         viewModel.loadNextCase(nextCaseId)
                     } else {
                         findNavController().navigateUp()

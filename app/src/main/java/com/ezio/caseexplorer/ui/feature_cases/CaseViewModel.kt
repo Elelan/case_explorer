@@ -9,6 +9,7 @@ import com.ezio.caseexplorer.core.utils.Resource
 import com.ezio.caseexplorer.core.utils.exhaustive
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,21 +32,23 @@ class CaseViewModel @Inject constructor(
     private fun loadCaseDetails(caseId: Int?) {
         viewModelScope.launch {
             caseId?.let {
-                val result = appUseCases.fetchCaseForIdUseCase(caseId)
-                when(result) {
-                    is Resource.Error -> {
-                        // error
-                        _event.send(UiEvents.Loading(true))
-                    }
-                    Resource.Loading -> {
-                        _event.send(UiEvents.Loading(true))
-                    }
-                    is Resource.Success -> {
-                        _event.send(UiEvents.Loading(false))
-                        val data: CaseItem = result.data
-                        _event.send(UiEvents.LoadCaseItem(data))
-                    }
-                }.exhaustive
+                appUseCases.fetchCaseForIdUseCase(caseId).collect { result ->
+                    when(result) {
+                        is Resource.Error -> {
+                            // error
+                            _event.send(UiEvents.Loading(true))
+                        }
+                        Resource.Loading -> {
+                            _event.send(UiEvents.Loading(true))
+                        }
+                        is Resource.Success -> {
+                            _event.send(UiEvents.Loading(false))
+                            val data: CaseItem = result.data
+                            _event.send(UiEvents.LoadCaseItem(data))
+                        }
+                    }.exhaustive
+                }
+
             }
         }
     }

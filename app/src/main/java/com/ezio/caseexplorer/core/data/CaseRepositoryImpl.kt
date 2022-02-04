@@ -5,25 +5,29 @@ import com.ezio.caseexplorer.core.domain.CaseRepository
 import com.ezio.caseexplorer.core.domain.models.CaseItem
 import com.ezio.caseexplorer.core.domain.models.ScenarioItem
 import com.ezio.caseexplorer.core.utils.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class CaseRepositoryImpl(
     private val api: CaseApi
 ) : CaseRepository {
-    override suspend fun getScenarios(): Resource<List<ScenarioItem>> {
-        return try {
+    override suspend fun getScenarios(): Flow<Resource<List<ScenarioItem>>> = flow{
+        emit(Resource.Loading)
+        try {
             val result = api.getScenarios()
-            Resource.Success(result)
+            emit(Resource.Success(result))
         } catch (e: Exception) {
-            Resource.Error(e)
+            emit(Resource.Error(e))
         }
     }
 
-    override suspend fun getCase(id: Int): Resource<CaseItem> {
-        return try {
+    override suspend fun getCase(id: Int): Flow<Resource<CaseItem>> = flow {
+        emit(Resource.Loading)
+        try {
             val result = api.getCaseById(id)
-            Resource.Success(result[0])
+            emit(Resource.Success(result[0]))
         } catch (e: Exception) {
-            return Resource.Error(e);
+            emit(Resource.Error(e))
         }
     }
 }
